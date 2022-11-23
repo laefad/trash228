@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "node16",
+        "moduleResolution": "node",
+        "outDir": "./dist",
+        "strict": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
+        "lib": [
+            "esnext",
+            "dom"
+        ],
+        "baseUrl": "./src",
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"],
+}
