@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import pr4.model.Ticket;
 import pr4.service.TicketService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -27,28 +26,21 @@ public class TicketController {
     // fire and forget
     @MessageMapping("createTicket")
     public Mono<Void> createTicket() {
-        this.ticketService.createTicket(new Ticket());
-        return Mono.empty(); 
+        return this.ticketService.createRandomTicket().then();
     };
 
     // request stream 
     @MessageMapping("allTickets")
     public Flux<String> allTickets() {
-        return this.ticketService.getAllTickers().map(s -> s.toString());
+        return this.ticketService.getAllTickers().doOnNext(s -> System.out.println(s.toString())).map(s -> s.toString());
     }
 
     // channel 
-    @MessageMapping("pingpong")
-    public Flux<String> pingPong(Flux<String> input) {
-        input.subscribe(
-            (s) -> System.out.println("Recieved from channel: " + s)
-        );
-        return Flux.generate(
-            () -> 1, // initial state
-            (state, sink) -> {
-                sink.next(state.toString());
-                return state + 1;
-            }
+    @MessageMapping("ticketCreationChannel")
+    public Flux<String> ticketCreationChannel(Flux<String> input) {
+        return input.flatMap(
+            (String s) -> this.ticketService.createRandomTicket()
+                .map(t -> t.toString())
         );
     }
 

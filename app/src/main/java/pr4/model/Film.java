@@ -1,23 +1,23 @@
 package pr4.model;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 @Table
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PACKAGE)
+@Builder
 @Data
 public class Film {
-
     @Id long id;
 
     String name;
     String description;
-    Date releaseDate;
-
+    Instant releaseDate;
 }

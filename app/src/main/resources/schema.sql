@@ -1,27 +1,23 @@
 DROP TABLE IF EXISTS film, ticket CASCADE;
 
 CREATE TABLE film (
-    id INT PRIMARY KEY, 
+    id bigserial, 
     name VARCHAR(255),
     description VARCHAR(4096), 
-    releaseDate DATE
+    release_date TIMESTAMP,
+    CONSTRAINT film_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE ticket (
-    id INT PRIMARY KEY, 
-    film_id INT NOT NULL,
+    id bigserial, 
+    film_id integer,
     price DOUBLE PRECISION, 
-    sessionDate DATE
+    session_date TIMESTAMP,
+    CONSTRAINT ticket_pkey PRIMARY KEY (id),
+    CONSTRAINT "ticket_to_film_FK" 
+        FOREIGN KEY (film_id)
+        REFERENCES public.film (id) 
+        MATCH SIMPLE
+            ON UPDATE NO ACTION
+            ON DELETE NO ACTION
 );
-
-ALTER TABLE ticket 
-    ADD CONSTRAINT fk_film
-    FOREIGN KEY (film_id) 
-    REFERENCES film(id);
-
-INSERT INTO public.film (id, name, description, releasedate) VALUES 
-    (1, 'Gatsby', 'Great Gatsby', NULL); 
-
-INSERT INTO public.ticket (id, film_id, price, sessiondate) VALUES 
-    (1, 1, 22, NULL),
-    (2, 1, 23, NULL);

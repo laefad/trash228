@@ -79,7 +79,7 @@ const run = async () => {
 
     const channel = rsocket.requestChannel({
         data: Buffer.from("1"), 
-        metadata: encodeRoute('pingpong')
+        metadata: encodeRoute('ticketCreationChannel')
     }, 10, false, {
         onComplete: () => {
             console.log("Channel complete");
@@ -112,7 +112,7 @@ const run = async () => {
     rsocket.requestStream({ 
         data: null,
         metadata: encodeRoute('allTickets')
-    }, 10, {
+    }, 100, {
         onComplete: () => {
             console.log("Request stream complete.");
         },
